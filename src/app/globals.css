@@ -1,0 +1,297 @@
+@import "tailwindcss";
+
+/* ── The token contract ──────────────────────────────────────
+   The names predate the light theme and describe roles, not hues:
+
+     ink / ink-2      page canvas, and the alternating section behind it
+     surface(-2)      cards and wells raised off the canvas
+     line             hairline borders and dividers
+     bone(-dim/faint) type: primary, secondary, tertiary
+     amber(-soft)     the accent — purple in both themes now
+
+   Tailwind 4 compiles every utility to `var(--color-…)` (opacity
+   modifiers included, via `color-mix`), so redefining these properties
+   re-themes the entire site without touching a single className.
+
+   The values below are the LIGHT theme, which is also the default: a
+   render that never reaches JS still paints the right one. */
+@theme {
+  /* ── Canvas ─────────────────────────────────────────────── */
+  --color-ink: #ffffff;
+  --color-ink-2: #faf9fc;
+  --color-surface: #f4f2f8;
+  --color-surface-2: #ebe8f2;
+  --color-line: #e5e1ee;
+
+  /* ── Type ───────────────────────────────────────────────── */
+  --color-bone: #14121a;
+  --color-bone-dim: #5b5668;
+  --color-bone-faint: #6f6980;
+
+  /* ── Accent: violet ─────────────────────────────────────── */
+  --color-amber: #7c3aed;
+  --color-amber-soft: #6d28d9;
+
+  --font-display: var(--font-instrument-serif), Georgia, serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* ── Themes ──────────────────────────────────────────────────
+   Bare attribute selectors, not `:root[data-theme=…]`, and deliberately
+   outside `@layer` so they outrank Tailwind's layered `@theme` defaults.
+
+   Being unanchored is the point: custom properties inherit, so marking any
+   subtree `data-theme="dark"` re-scopes it — which is how the media
+   surfaces below keep their dark grade on a white page. */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-ink: #ffffff;
+  --color-ink-2: #faf9fc;
+  --color-surface: #f4f2f8;
+  --color-surface-2: #ebe8f2;
+  --color-line: #e5e1ee;
+
+  --color-bone: #14121a;
+  --color-bone-dim: #5b5668;
+  /* Darker than a literal flip of the dark theme's faint: at 11px the
+     eyebrow label needs 4.5:1, and a mirrored value lands near 3.6:1. */
+  --color-bone-faint: #6f6980;
+
+  --color-amber: #7c3aed;
+  --color-amber-soft: #6d28d9;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-ink: #08080a;
+  --color-ink-2: #0d0d11;
+  --color-surface: #121218;
+  --color-surface-2: #1a1a22;
+  --color-line: #24242e;
+
+  --color-bone: #edeae4;
+  --color-bone-dim: #a9a49c;
+  --color-bone-faint: #6e6a64;
+
+  /* Lighter than the light theme's violet so it holds contrast on
+     near-black — same hue, retuned for the canvas. */
+  --color-amber: #a78bfa;
+  --color-amber-soft: #c4b5fd;
+}
+
+/* Page-level only. A hovered tile's shadow falls on the PAGE, so it has to
+   track the page theme — anchoring to `:root` stops the tile's own
+   `data-theme="dark"` scope from capturing it. Defaults to the light value
+   so it still resolves if the theme attribute never gets set. */
+:root {
+  --tile-shadow: 0 28px 70px -20px rgb(28 18 58 / 0.28);
+}
+:root[data-theme="dark"] {
+  --tile-shadow: 0 28px 70px -20px rgb(0 0 0 / 0.85);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-amber);
+    color: var(--color-ink);
+  }
+
+  /* Focus ring in the accent, so it re-tunes with the theme rather than
+     needing a value that compromises on both canvases. */
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  /* Small uppercase label used throughout as a section marker. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-bone-faint);
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+  }
+
+  /* Page gutter — one definition so every section aligns. */
+  .shell {
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .shell {
+      padding-inline: 4rem;
+    }
+  }
+
+  .film-grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    z-index: 2;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ── Hero mosaic drift ─────────────────────────────────────
+   Each column duplicates its contents and translates by exactly -50%,
+   so the loop is seamless. Speeds differ per column to create parallax. */
+@keyframes drift-up {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+@keyframes drift-down {
+  from {
+    transform: translate3d(0, -50%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-drift-up {
+  animation: drift-up linear infinite;
+}
+.animate-drift-down {
+  animation: drift-down linear infinite;
+}
+.animate-marquee {
+  animation: marquee 60s linear infinite;
+}
+/* Indeterminate loader ring — slow enough to read as "working", not "stuck".
+   Separate from Tailwind's `animate-spin` so the ring keeps its -90deg start
+   offset (set via the `rotate` property, which composes with `transform`). */
+@keyframes spin-ring {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-ring 1.4s linear infinite;
+}
+
+/* Lightbox entrance.
+   Done in CSS rather than with AnimatePresence: an exit animation that fails
+   to unmount leaves a full-screen, fully transparent overlay sitting at
+   z-100, which silently swallows every click on the page. Mounting is driven
+   by React state alone, so the node cannot outlive the open film. */
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes lightbox-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.lightbox-in {
+  animation: lightbox-in 0.25s ease-out both;
+}
+.lightbox-panel-in {
+  animation: lightbox-panel-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Gallery tile entrance, staggered by an inline --i custom property.
+   Same reasoning as the lightbox: AnimatePresence was leaving every filtered
+   tile mounted at opacity 0 while still occupying layout, so mount/unmount is
+   React's job and the animation is purely cosmetic. */
+@keyframes tile-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.tile-in {
+  animation: tile-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 30ms);
+}
+
+/* Anchored sections must clear the fixed nav when jumped to. */
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-drift-up,
+  .animate-drift-down,
+  .animate-marquee {
+    animation: none !important;
+  }
+  /* The loader ring is exempt — it is feedback, not decoration, and freezing
+     it would make a buffering video look broken. */
+  .animate-spin-slow {
+    animation-duration: 1.4s !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
