@@ -30,6 +30,17 @@ const ALLOWED_IDS = new Set<string>(projects.map((p) => p.driveId));
 /** Ranged responses depend on a request header, so this can never be static. */
 export const dynamic = "force-dynamic";
 
+/**
+ * A range request stays open for as long as the browser is pulling bytes —
+ * 30–47s observed locally on the heavier masters. Vercel's default function
+ * timeout is 10s, which would cut playback off mid-stream with a 504.
+ *
+ * 60 is the ceiling on Hobby; Pro allows up to 300. Set as a route segment
+ * export rather than `functions` in vercel.json because Next.js only honours
+ * `memory` and `maxDuration` there and manages the rest itself.
+ */
+export const maxDuration = 60;
+
 function upstreamUrl(id: string) {
   // `confirm=t` skips the virus-scan interstitial that otherwise replaces the
   // body with HTML for anything over ~100MB.
