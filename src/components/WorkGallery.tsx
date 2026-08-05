@@ -46,7 +46,7 @@ export function WorkGallery() {
             replays on every change. */}
         <p key={filter} className="tile-in text-sm text-bone-dim">
           {activeCategory?.blurb ??
-            "Every film in the library — weddings, brand work, events, and long-form."}
+            "The full selection — weddings, brand work, events, and long-form."}
         </p>
       </div>
 

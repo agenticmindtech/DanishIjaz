@@ -73,9 +73,10 @@ export default function HomePage() {
                   without the detail work.
                 </p>
                 <p className="text-bone">
-                  {stats.films} films across {stats.categories} disciplines, from
-                  a {stats.vertical}-piece vertical library to full-length
-                  wedding and podcast masters.
+                  A selection of {stats.films} films across {stats.categories}{" "}
+                  disciplines, from {stats.vertical} vertical cuts to
+                  full-length wedding and podcast masters — a sample of the
+                  work, not the whole of it.
                 </p>
               </div>
             </Reveal>

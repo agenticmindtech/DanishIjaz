@@ -126,7 +126,7 @@ export default async function ProjectPage({
               href="/#work"
               className="text-sm text-bone-dim transition-colors hover:text-amber"
             >
-              View all {projects.length} films →
+              View selected work →
             </Link>
           </div>
         </Reveal>

@@ -93,7 +93,7 @@ export function Hero() {
             href="#work"
             className="rounded-full border border-bone/25 px-6 py-3 text-sm text-bone transition-colors hover:border-amber hover:text-amber"
           >
-            See all {stats.films} films
+            See selected work
           </Link>
         </motion.div>
 
@@ -103,7 +103,10 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-20 flex flex-wrap gap-x-12 gap-y-6 border-t border-line pt-8"
         >
-          <Stat value={String(stats.films)} label="Films delivered" />
+          {/* "Selected", not "delivered": this library is a sample reel, and
+              the delivered body of work is considerably larger than what is
+              published here. The stat should not read as a career total. */}
+          <Stat value={String(stats.films)} label="Selected films" />
           <Stat value={String(stats.categories)} label="Disciplines" />
           <Stat value="2" label="Studios" />
           <Stat value="4K" label="Delivery" />
