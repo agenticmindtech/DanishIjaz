@@ -10,7 +10,6 @@ import {
   categories,
   featuredVertical,
   featuredWide,
-  projects,
 } from "@/content/projects";
 import {
   experience,
@@ -194,18 +193,15 @@ export default function HomePage() {
               ))}
             </ul>
 
-            <h3 className="eyebrow mt-14">The library</h3>
+            {/* Disciplines, not a tally. The per-category counts that used to
+                sit on the right described the published sample rather than the
+                work delivered in each. */}
+            <h3 className="eyebrow mt-14">What I cut</h3>
             <ul className="mt-6 divide-y divide-line border-y border-line">
               {categories.map((c) => (
-                <li
-                  key={c.id}
-                  className="flex items-baseline justify-between gap-6 py-4"
-                >
+                <li key={c.id} className="py-4">
                   <span className="display text-2xl text-bone-dim md:text-3xl">
                     {c.label}
-                  </span>
-                  <span className="font-mono text-xs text-bone-faint">
-                    {projects.filter((p) => p.category === c.id).length}
                   </span>
                 </li>
               ))}
