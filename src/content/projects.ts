@@ -553,10 +553,14 @@ export const getProject = (slug: string) =>
 export const categoryLabel = (id: CategoryId) =>
   categories.find((c) => c.id === id)?.label ?? id;
 
-/** Stats surfaced on the homepage — derived, never hand-maintained. */
+/**
+ * Stats surfaced on the homepage — derived, never hand-maintained.
+ *
+ * Film counts deliberately absent. What is published here is a selection of
+ * delivered work, so `projects.length` describes the size of the sample, not
+ * the body of work, and every surface that printed it read as a career total.
+ */
 export const stats = {
-  films: projects.length,
   categories: categories.length,
-  vertical: projects.filter((p) => p.aspect === "9:16").length,
   years: "2025 — 2026",
 };

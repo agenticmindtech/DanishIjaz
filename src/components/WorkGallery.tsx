@@ -9,9 +9,9 @@ type Filter = CategoryId | "all";
 /**
  * Aspect-aware masonry.
  *
- * The library is 21 portrait / 14 landscape, so a fixed-ratio grid would
- * letterbox or crop most of it. CSS multi-column lets every tile keep its
- * native ratio while the columns stay balanced.
+ * The library is mostly portrait with a landscape minority, so a fixed-ratio
+ * grid would letterbox or crop most of it. CSS multi-column lets every tile
+ * keep its native ratio while the columns stay balanced.
  */
 export function WorkGallery() {
   const [filter, setFilter] = useState<Filter>("all");
@@ -28,7 +28,6 @@ export function WorkGallery() {
           active={filter === "all"}
           onClick={() => setFilter("all")}
           label="All"
-          count={projects.length}
         />
         {categories.map((c) => (
           <FilterPill
@@ -36,7 +35,6 @@ export function WorkGallery() {
             active={filter === c.id}
             onClick={() => setFilter(c.id)}
             label={c.label}
-            count={projects.filter((p) => p.category === c.id).length}
           />
         ))}
       </div>
@@ -67,7 +65,7 @@ export function WorkGallery() {
               project={project}
               priority={i < 4}
               sizes="(min-width: 1280px) 23vw, (min-width: 1024px) 31vw, (min-width: 640px) 46vw, 92vw"
-              /* These sit under the section's "All N films" h3, not directly
+              /* These sit under the section's "The library." h3, not directly
                  under its h2 like the featured tiles do. */
               headingLevel="h4"
             />
@@ -78,35 +76,30 @@ export function WorkGallery() {
   );
 }
 
+/**
+ * No count badge. The published library is a sample of delivered work, so a
+ * tally next to each filter reads as "this is everything" — which it isn't.
+ */
 function FilterPill({
   active,
   onClick,
   label,
-  count,
 }: {
   active: boolean;
   onClick: () => void;
   label: string;
-  count: number;
 }) {
   return (
     <button
       onClick={onClick}
       aria-pressed={active}
-      className={`group flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors duration-300 ${
+      className={`group rounded-full border px-4 py-2 text-sm transition-colors duration-300 ${
         active
           ? "border-amber bg-amber text-ink"
           : "border-line text-bone-dim hover:border-bone-faint hover:text-bone"
       }`}
     >
       {label}
-      <span
-        className={`font-mono text-[10px] ${
-          active ? "text-ink/60" : "text-bone-faint"
-        }`}
-      >
-        {count}
-      </span>
     </button>
   );
 }

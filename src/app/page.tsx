@@ -11,7 +11,6 @@ import {
   featuredVertical,
   featuredWide,
   projects,
-  stats,
 } from "@/content/projects";
 import {
   experience,
@@ -73,10 +72,9 @@ export default function HomePage() {
                   without the detail work.
                 </p>
                 <p className="text-bone">
-                  A selection of {stats.films} films across {stats.categories}{" "}
-                  disciplines, from {stats.vertical} vertical cuts to
-                  full-length wedding and podcast masters — a sample of the
-                  work, not the whole of it.
+                  Selected work spanning weddings, brand and fashion, events,
+                  podcasts and long-form — from vertical cuts to full-length
+                  masters. A sample of what I deliver, not the whole of it.
                 </p>
               </div>
             </Reveal>
@@ -358,15 +356,14 @@ export default function HomePage() {
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div>
-                <p className="eyebrow">The full library</p>
+                <p className="eyebrow">Selected work</p>
                 <h3 className="display mt-4 text-4xl md:text-5xl">
-                  All {stats.films} films.
+                  The library.
                 </h3>
               </div>
               <p className="max-w-sm text-sm leading-relaxed text-bone-dim">
-                {stats.vertical} vertical, {stats.films - stats.vertical}{" "}
-                widescreen, across {stats.categories} disciplines —{" "}
-                {stats.years}.
+                Vertical cuts and widescreen masters — weddings, brand work,
+                events, podcasts, and long-form.
               </p>
             </div>
           </Reveal>

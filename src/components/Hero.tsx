@@ -103,10 +103,8 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-20 flex flex-wrap gap-x-12 gap-y-6 border-t border-line pt-8"
         >
-          {/* "Selected", not "delivered": this library is a sample reel, and
-              the delivered body of work is considerably larger than what is
-              published here. The stat should not read as a career total. */}
-          <Stat value={String(stats.films)} label="Selected films" />
+          {/* No film count here. What is published is a sample of delivered
+              work, so any tally reads as a career total and undersells it. */}
           <Stat value={String(stats.categories)} label="Disciplines" />
           <Stat value="2" label="Studios" />
           <Stat value="4K" label="Delivery" />

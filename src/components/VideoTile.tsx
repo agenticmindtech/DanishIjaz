@@ -35,7 +35,7 @@ export function VideoTile({
   /**
    * The tile title's level in the document outline. Defaults to `h3`, which
    * is right directly under a section's `h2`; the gallery nests these one
-   * level deeper, beneath its own "All N films" heading.
+   * level deeper, beneath its own "The library." heading.
    */
   headingLevel?: "h3" | "h4";
 }) {
